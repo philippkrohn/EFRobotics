@@ -1,0 +1,1113 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Inter, wie von EF.de genutzt -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <title>Interaktives Canvas: People-Builder | Philipp Krohn</title>
+    
+    <!-- Font Awesome CDN (BUG-FIX: 'integrity' statt 'xintegrity') -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+/* ------------------------- */
+        /* 1. Globale Stile & CI v3  */
+        /* (Light Mode)            */
+        /* ------------------------- */
+        
+        :root {
+            /* CI-Farben v3 (basierend auf Screenshots) */
+            --pink: #E83D84;     /* Primärer Akzent (von 'Jetzt bewerben') */
+            --dark-header: #111111; /* Nur für den Header */
+            
+            --bg-white: #FFFFFF; /* Haupt-Hintergrund */
+            --bg-gray: #f4f4f4;  /* Alternierender Sektions-BG */
+            
+            --text-dark: #1a1a1a;   /* Dunkle Headlines */
+            --text-medium: #333; /* Mittlerer Text */
+            --text-light: #555;   /* Hellerer Fließtext */
+            
+            --green: #4CAF50;
+            --red: #F44336;
+            
+            --shadow-light: 0 4px 12px rgba(0,0,0,0.05);
+            --shadow-hover: 0 6px 16px rgba(0,0,0,0.08);
+            --border-color: #eee;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            /* WICHTIG: Font "Inter" wie bei EF Robotics */
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-light); /* Standard-Textfarbe ist hellgrau */
+            background-color: var(--bg-white); /* Standard-BG ist weiß */
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ------------------------- */
+        /* 2. Typografie & Helfer    */
+        /* ------------------------- */
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        h1, h2, h3, h4 {
+            line-height: 1.25;
+            margin-bottom: 1.5rem;
+            font-weight: 800; /* Stärkeres Gewicht, wie bei EF */
+            color: var(--text-dark);
+        }
+
+        h1 { font-size: 2.5rem; }
+        h2 { font-size: 2rem; }
+        h3 { font-size: 1.5rem; }
+        
+        /* Spezielle Headline für Demo-Karten (wie bei EF gesehen) */
+        .card-headline {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            /* Platz für das Plus-Icon rechts */
+            padding-right: 1.5rem; 
+        }
+        /* NEU: Spezifische Icons statt Haken */
+        .card-headline .icon-specific {
+            color: var(--pink);
+            margin-right: 0.75rem;
+            font-size: 1.2rem;
+            width: 28px; /* Feste Breite für Ausrichtung */
+            text-align: center;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+        
+        p.lead {
+            font-size: 1.15rem;
+            color: var(--text-medium);
+        }
+
+        section {
+            padding: 4rem 0;
+        }
+        
+        /* Sektions-BG-Wechsler */
+        section:nth-of-type(even) {
+            background-color: var(--bg-gray);
+        }
+        /* Header zählt nicht, daher muss #demos wieder weiß sein */
+        #demos {
+            background-color: var(--bg-white);
+        }
+        #vision {
+            background-color: var(--bg-gray);
+            text-align: center;
+        }
+        /* KORREKTUR: Zentrierung des P-Tags (spezifischerer Selektor) */
+        #vision > .container > p {
+            font-size: 1.15rem;
+            max-width: 700px;
+            color: var(--text-light);
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* NEU: Blockquote-Stil (KORRIGIERT: font-weight entfernt) */
+        .blockquote {
+            font-size: 1.15rem;
+            font-style: italic;
+            font-weight: normal; /* Sicherstellen, dass es nicht fett ist */
+            color: var(--text-medium);
+            padding-left: 1.5rem;
+            border-left: 4px solid var(--pink);
+            margin: 2rem auto;
+            max-width: 650px;
+            text-align: left; /* Zitate sind oft linksbündig */
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .icon {
+            font-size: 1.5rem;
+            color: var(--pink);
+            margin-right: 0.75rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.85rem 1.75rem;
+            background-color: var(--pink);
+            color: var(--bg-white);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid var(--pink);
+            cursor: pointer;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background-color: #d63373; /* Etwas dunkleres Pink */
+            border-color: #d63373;
+            transform: translateY(-2px);
+        }
+        
+        /* Ghost-Button-Stil (für den 2. CTA) */
+        .btn-ghost {
+            background-color: transparent;
+            color: var(--pink);
+            border: 2px solid var(--pink);
+        }
+        
+        .btn-ghost:hover {
+            background-color: var(--pink);
+            color: var(--bg-white);
+        }
+
+        /* ------------------------- */
+        /* 3. Sektionen-Stile (Light)*/
+        /* ------------------------- */
+
+        /* Sektion 1: Hook (Header) */
+        .hero-header {
+            background-color: var(--dark-header);
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero-header h1 {
+            color: var(--bg-white);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-header .lead-text {
+            font-size: 1.15rem;
+            color: var(--bg-gray);
+            max-width: 700px;
+            margin: 0 auto 2rem auto;
+        }
+
+        /* Video-Wrapper */
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            max-width: 700px;
+            margin: 2rem auto 2rem auto;
+            border-radius: 12px;
+            background-color: #000;
+            border: 1px solid #333;
+        }
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* NEU: Pinker Divider-Streifen */
+        .divider-stripe {
+            background-color: var(--pink);
+            padding: 1.5rem 0;
+            text-align: center;
+            /* NEU: Margin für die Position im Header */
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+        .divider-stripe h2 {
+            color: var(--bg-white);
+            margin-bottom: 0;
+            font-size: 2.2rem; /* Etwas kleiner als H1 */
+            font-weight: 700; /* Dünner als H1 */
+        }
+
+
+        /* Sektion 2: Demos */
+        #demos {
+            padding-bottom: 2rem; /* Weniger padding unten */
+        }
+        
+        /* Grid-System für die 7 Demos */
+        .grid-demos {
+            display: grid;
+            grid-template-columns: 1fr; /* 1 Spalte auf Mobil */
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .demo-card {
+            position: relative; /* NEU: Für das Plus-Icon */
+            background: var(--bg-white);
+            border-radius: 12px;
+            box-shadow: var(--shadow-light);
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .demo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        /* NEU: Klick-Indikator (Plus-Icon) */
+        .card-plus-icon {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.5rem;
+            font-size: 1.2rem;
+            color: var(--pink);
+            opacity: 0.5;
+            transition: all 0.3s ease;
+        }
+        .demo-card:hover .card-plus-icon {
+            opacity: 1;
+            transform: rotate(90deg) scale(1.1);
+        }
+        
+        .demo-card p {
+            font-size: 0.95rem;
+            margin-bottom: 0;
+            padding-right: 1rem; /* Platz für das Plus */
+        }
+        
+        /* Spezielles Layout-Grid für die Demo-Karten */
+        @media (min-width: 768px) {
+            .grid-demos {
+                grid-template-columns: repeat(2, 1fr); /* 2 Spalten auf Desktop */
+            }
+            /* Die 7. Karte zentrieren, wenn sie allein ist */
+            .grid-demos > :last-child:nth-child(odd) {
+                grid-column: span 2;
+                max-width: 50%; /* halbe breite */
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+         @media (min-width: 1000px) {
+             /* 7. Karte zentrieren (Fallback für 2-Spalten-Layout) */
+            .grid-demos > :last-child:nth-child(odd) {
+                grid-column: 1 / -1; /* Volle Breite einnehmen */
+                max-width: calc(50% - 0.75rem); /* Breite einer Karte minus halber Gap */
+                margin-left: auto;
+                margin-right: auto;
+            }
+         }
+
+
+        /* Sektion 3: Skillset & Tools */
+        /* #vision (siehe oben) */
+        .tool-stack-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-top: 3rem;
+            text-align: left;
+        }
+
+        .tool-category {
+            background: var(--bg-white);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+        .tool-category h4 {
+            color: var(--pink);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        .tool-category ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .tool-category li {
+            position: relative;
+            padding-left: 1.75rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            color: var(--text-medium);
+        }
+        .tool-category li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-weight: 700;
+            color: var(--green);
+            font-size: 1.1rem;
+        }
+        
+        @media (min-width: 768px) {
+            .tool-stack-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+
+        /* Sektion 4: CTA (Footer) */
+        footer {
+            background: var(--bg-white);
+            color: var(--text-dark);
+            text-align: center;
+            padding: 4rem 0 2rem 0;
+        }
+
+        footer h2 {
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .footer-subtext {
+            font-size: 1.15rem;
+            color: var(--text-light);
+            margin-top: -1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-profile {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 1.5rem auto 0.5rem auto;
+            border: 4px solid var(--pink);
+        }
+
+        .cta-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        
+        .footer-legal {
+            margin-top: 4rem;
+            padding: 1.5rem 0;
+            border-top: 1px solid var(--border-color);
+        }
+        .footer-legal p {
+            font-size: 0.8rem;
+            color: #999;
+            max-width: 800px;
+            margin: 0.5rem auto;
+        }
+        .footer-legal a {
+            color: var(--pink);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .footer-legal a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (min-width: 768px) {
+            .cta-buttons {
+                flex-direction: row;
+                gap: 1.5rem;
+            }
+        }
+
+        /* ------------------------- */
+        /* 4. Modal-Stile (Light)    */
+        /* ------------------------- */
+        
+        #modal-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(17, 17, 17, 0.5); /* --dark-header mit alpha */
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s ease-out;
+        }
+
+        #modal-backdrop.visible {
+            display: flex;
+            opacity: 1;
+        }
+
+        #modal-content {
+            background: var(--bg-white);
+            border-radius: 12px;
+            padding: 2rem 2.5rem;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transform: scale(0.95);
+            opacity: 0;
+            transition: all 0.3s ease-out;
+            border: 1px solid var(--border-color);
+        }
+
+        #modal-backdrop.visible #modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        #modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: #aaa;
+            cursor: pointer;
+            transition: color 0.3s;
+            line-height: 1;
+        }
+
+        #modal-close:hover {
+            color: var(--text-dark);
+        }
+
+        #modal-title {
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+            padding-right: 2rem;
+        }
+        
+        /* KORREKTUR: "Eure Aufgabe" -> "Die Anforderung" */
+        #modal-body p strong {
+            font-weight: 600;
+            color: var(--text-medium);
+        }
+        
+        /* Modal "Vorher/Nachher" Styling */
+        .solution-split {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .split-box {
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+        
+        /* Problem-Box */
+        .split-box.problem {
+            background-color: #fff8f8;
+            border: 1px solid var(--red);
+        }
+        .split-box.problem h4 {
+            color: var(--red);
+        }
+        
+        /* Lösungs-Box */
+        .split-box.solution {
+            background-color: #f6fff7;
+            border: 1px solid var(--green);
+        }
+        .split-box.solution h4 {
+            color: var(--green);
+        }
+
+        .split-box h4 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        .split-box h4 .icon {
+            font-size: 1.2rem;
+            margin-right: 0.75rem;
+            color: inherit; /* Farbe von h4 erben */
+        }
+        
+        .split-box p, .split-box li {
+            font-size: 0.95rem;
+            color: var(--text-medium);
+        }
+        
+        .split-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .split-box li {
+            position: relative;
+            padding-left: 1.75rem;
+            margin-bottom: 0.5rem;
+        }
+        .split-box li::before {
+            position: absolute;
+            left: 0;
+            top: 2px;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        
+        .split-box.problem li::before {
+            content: '»';
+            color: var(--red);
+        }
+        .split-box.solution li::before {
+            content: '✓';
+            color: var(--green);
+        }
+        
+        /* Speziell für Demo 3 (Flow) */
+        .solution-flow {
+            margin-top: 1rem;
+        }
+        .flow-step {
+            position: relative;
+            padding: 1rem 1.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+        .flow-step h4 {
+            color: var(--pink);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+        /* Pfeil nach unten */
+        .flow-step:not(:last-child)::after {
+            content: '\f063'; /* fa-arrow-down */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            bottom: -1.75rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--pink);
+            font-size: 1.2rem;
+        }
+        
+
+        @media (min-width: 768px) {
+            .solution-split {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Sektion 1: Der "Hook" (Above the Fold) -->
+    <header class="hero-header">
+        <div class="container">
+            <!-- NEU: Geteilte H1, Teil 1 -->
+            <h1>Ihr sucht einen People-Builder...</h1>
+            
+            <!-- NEUER Pink-Streifen (Position VOR dem Video) -->
+            <div class="divider-stripe">
+                <div class="container">
+                    <h2>...keinen Prozessverwalter.</h2>
+                </div>
+            </div>
+
+            <!-- Video-Wrapper (Position NACH dem Streifen) -->
+            <div class="video-wrapper">
+            <iframe 
+                src="https://www.youtube.com/embed/zuOUN-VSI40" 
+                title="YouTube video player" 
+                frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+            
+            <p class="lead-text">
+                Lass mich Euch den Unterschied zeigen. Interaktiv.
+            </p>
+            <a href="#demos" class="btn">Meine Lösungs-Blueprints ansehen</a>
+        </div>
+    </header>
+
+    <!-- NEUER Pink-Streifen (Geteilte H1, Teil 2) -->
+    <!-- DIESER BLOCK WURDE NACH OBEN VERSCHOBEN -->
+
+    <main>
+
+        <!-- Sektion 2: Meine Lösungs-Blueprints -->
+        <section id="demos">
+            <div class="container">
+                <div class="text-center">
+                    <!-- NEU: Überschrift ohne "7" -->
+                    <h2>Eure Herausforderungen. Meine Lösungs-Blueprints.</h2>
+                    <!-- NEU: Einleitungstext umformuliert (weniger "abgelesen") -->
+                    <p class="lead" style="max-width: 700px; margin: -1rem auto 0 auto;">
+                        Als Euer "People-Builder" und Impulsgeber habe ich die Kernanforderungen Eurer HR-Stelle in Lösungsansätze übersetzt. Das ist kein Gimmick – es ist der Beweis, wie ich denke und wie ich Eure Kultur aktiv stärken würde.
+                    </p>
+                </div>
+
+                <!-- Das Grid für die 7 Demos -->
+                <div class="grid-demos">
+                    
+                    <!-- Demo 1: Recruiting -->
+                    <div class="demo-card modal-trigger" data-modal="demo1">
+                        <!-- NEU: Plus-Icon -->
+                        <span class="card-plus-icon"><i class="fa-solid fa-plus"></i></span>
+                        <h3 class="card-headline">
+                            <!-- NEU: Spezifisches Icon -->
+                            <span class="icon-specific"><i class="fa-solid fa-magnifying-glass"></i></span>
+                            1. Recruiting
+                        </h3>
+                        <p>"Erstellung & Veröffentlichung von Stellenanzeigen, Active Sourcing, Bewerberauswahl"</p>
+                    </div>
+
+                    <!-- Demo 2: Bewerbermanagement -->
+                    <div class="demo-card modal-trigger" data-modal="demo2">
+                        <!-- NEU: Plus-Icon -->
+                        <span class="card-plus-icon"><i class="fa-solid fa-plus"></i></span>
+                        <h3 class="card-headline">
+                            <!-- NEU: Spezifisches Icon -->
+                            <span class="icon-specific"><i class="fa-solid fa-list-check"></i></span>
+                            2. Bewerbermanagement
+                        </h3>
+                        <p>"Kommunikation, Interviewkoordination & Bewertung entlang eines klaren Prozesses"</p>
+                    </div>
+                    
+                    <!-- Demo 3: Interviewführung -->
+                    <div class="demo-card modal-trigger" data-modal="demo3">
+                        <!-- NEU: Plus-Icon -->
+                        <span class="card-plus-icon"><i class="fa-solid fa-plus"></i></span>
+                        <h3 class="card-headline">
+                            <!-- NEU: Spezifisches Icon -->
+                            <span class="icon-specific"><i class="fa-solid fa-user-check"></i></span>
+                            3. Interviewführung
+                        </h3>
+                        <p>"Du führst ... nach einem klaren Leitfaden, analysierst Persönlichkeitsprofile ... entwickelst fundierte Empfehlungen"</p>
+                    </div>
+                    
+                    <!-- Demo 4: Onboarding -->
+                    <div class="demo-card modal-trigger" data-modal="demo4">
+                        <!-- NEU: Plus-Icon -->
+                        <span class="card-plus-icon"><i class="fa-solid fa-plus"></i></span>
+                        <h3 class="card-headline">
+                            <!-- NEU: Spezifisches Icon -->
+                            <span class="icon-specific"><i class="fa-solid fa-rocket"></i></span>
+                            4. Onboarding
+                        </h3>
+                        <p>"Planung & Steuerung der ersten 90 Tage für neue Mitarbeitende"</p>
+                    </div>
+                    
+                    <!-- Demo 5: Performance-Kultur -->
+                    <div class="demo-card modal-trigger" data-modal="demo5">
+                        <!-- NEU: Plus-Icon -->
+                        <span class="card-plus-icon"><i class="fa-solid fa-plus"></i></span>
+                        <h3 class="card-headline">
+                            <!-- NEU: Spezifisches Icon -->
+                            <span class="icon-specific"><i class="fa-solid fa-chart-line"></i></span>
+                            5. Performance-Kultur
+                        </h3>
+                        <p>"Mitgestaltung von Feedbackprozessen, Zielgesprächen & Entwicklungsangeboten..."</p>
+                    </div>
+                    
+                    <!-- Demo 6: HR-Organisation -->
+                    <div class="demo-card modal-trigger" data-modal="demo6">
+                        <!-- NEU: Plus-Icon -->
+                        <span class="card-plus-icon"><i class="fa-solid fa-plus"></i></span>
+                        <h3 class="card-headline">
+                            <!-- NEU: Spezifisches Icon -->
+                            <span class="icon-specific"><i class="fa-solid fa-sitemap"></i></span>
+                            6. HR-Organisation
+                        </h3>
+                        <p>"Pflege des Bewerbermanagementsystems & Optimierung interner Abläufe"</p>
+                    </div>
+                    
+                    <!-- Demo 7: Zusammenarbeit -->
+                    <div class="demo-card modal-trigger" data-modal="demo7">
+                        <!-- NEU: Plus-Icon -->
+                        <span class="card-plus-icon"><i class="fa-solid fa-plus"></i></span>
+                        <h3 class="card-headline">
+                            <!-- NEU: Spezifisches Icon -->
+                            <span class="icon-specific"><i class="fa-solid fa-handshake"></i></span>
+                            7. Zusammenarbeit
+                        </h3>
+                        <p>"Enge Abstimmung mit Geschäftsleitung & Fachbereichen"</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        
+        <!-- Sektion 3: Vision & Skillset -->
+    <section id="vision">
+        <div class="container">
+            <h2>Ein "People-Builder" mit Strategie und Taktik.</h2>
+            <!-- NEU: Zitat als Blockquote & ohne Anführungszeichen -->
+            <p class="blockquote">
+                Wachstum braucht Struktur, aber Drive entsteht durch Menschen. Als Euer People-Builder schaffe ich die Kultur, in der Eure Teams die besten Prozesse selbst entwickeln und A-Player wachsen wollen.
+            </p>
+            
+            <!-- NEU: Skillset-Text erweitert und ZENTRIERT (via CSS-Fix) -->
+            <p style="margin-top: 2rem;">
+                    <strong>Mein Mindset ist die Strategie, diese Tools und Methoden sind die Taktik.</strong> Ein "People-Builder" nutzt Tools nicht als Selbstzweck, sondern um Kultur und Prozesse zu befähigen. Dieser Auszug aus meinem CV zeigt, welche Werkzeuge ich dafür mitbringe.
+                </p>
+                
+                <!-- NEUER Skill-Stack (basierend auf CVs) -->
+                <div class="tool-stack-grid">
+                    <div class="tool-category">
+                        <h4><span class="icon"><i class="fa-solid fa-magnifying-glass"></i></span>Recruiting & Sourcing</h4>
+                        <ul>
+                            <li>Active Sourcing (LinkedIn, Xing)</li>
+                            <li>Social Media Kampagnen (Meta, TikTok)</li>
+                            <li>Performance-Anzeigen (Google Ads)</li>
+                            <li>Strukturierte Interviews & Scorecards</li>
+                            <li>Zielgruppenmodellierung</li>
+                        </ul>
+                    </div>
+                    <div class="tool-category">
+                        <h4><span class="icon"><i class="fa-solid fa-chart-line"></i></span>Analyse & Prozess</h4>
+                        <ul>
+                            <li>Datenbasierte KPI-Dashboards</li>
+                            <li>Prozess-Optimierung (DSGVO)</li>
+                            <li>Projektmanagement (IPMA GPM D)</li>
+                            <li>Qualitätsmanagement (QM-Beauftragter)</li>
+                            <li>A/B-Tests & Performance-Tracking</li>
+                        </ul>
+                    </div>
+                    <div class="tool-category">
+                        <h4><span class="icon"><i class="fa-solid fa-bullhorn"></i></span>Branding & Kommunikation</h4>
+                        <ul>
+                            <li>Employer Branding (EVP)</li>
+                            <li>Arbeitgeber-Positionierung</li>
+                            <li>Workshop-Moderation & Lehre</li>
+                            <li>Medienproduktion (Video, Audio)</li>
+                            <li>Wissensvermittlung & Teamaufbau</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Sektion 4: Call to Action (Der nächste Schritt) -->
+    <footer>
+        <div class="container">
+            <!-- Bild von Philipp Krohn -->
+            <img src="PK Bild Klein.jpg" alt="Philipp Krohn" class="footer-profile" 
+                 onerror="this.src='https://placehold.co/100x100/E83D84/FFFFFF?text=PK'; this.onerror=null;">
+
+            <!-- NEU: CTA-Headline umformuliert -->
+            <h2>Könnt Ihr Euch diese Art der Zusammenarbeit vorstellen?</h2>
+            <p class="footer-subtext">Ich freue mich auf ein persönliches Kennenlernen.</p>
+            
+            <div class="cta-buttons">
+                <!-- NEU: Funktionaler mailto: Link -->
+                <a href="mailto:philipp.krohn@gmail.com" class="btn">Kontakt aufnehmen</a>
+                <!-- NEU: Dateiname im href korrigiert (ohne Doppelpunkt) -->
+                <a href="Kurzanalyse EF Robotics im Wachstum.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">Kurzanalyse: EF Robotics im Wachstum (PDF)</a>
+            </div>
+            
+            <!-- NEU: Footer mit Disclaimer -->
+            <div class="footer-legal">
+                <p>
+                    Dies ist eine proaktive Demo-Webseite, die ausschließlich im Rahmen meiner Bewerbung auf die Stelle "HR Manager / People & Culture" bei der EF Sales GmbH erstellt wurde. Alle Inhalte sind öffentlich einsehbar.
+                </p>
+                <p>
+                    Die Seite wird nach Beendigung des Bewerbungsverfahrens oder auf jederzeitigen Wunsch sofort depubliziert.
+                </p>
+                <p>
+                    <a href="https://personalakademie.de/impressum/" target="_blank" rel="noopener noreferrer">Impressum</a> | <a href="https://personalakademie.de/datenschutz/" target="_blank" rel="noopener noreferrer">Datenschutz</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- 
+    -------------------------
+    Modal-Struktur (Versteckt)
+    -------------------------
+    -->
+    <div id="modal-backdrop">
+        <div id="modal-content">
+            <span id="modal-close">&times;</span>
+            <h3 id="modal-title">Modal Titel</h3>
+            <div id="modal-body">
+                <!-- Inhalt wird per JS geladen -->
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // 1. Daten-Store für Modal-Inhalte
+            // KORREKTUR: "Eure Aufgabe" -> "Die Anforderung"
+            const modalData = {
+                'demo1': {
+                    title: 'Blueprint 1: Recruiting',
+                    content: `
+                        <p><strong>Die Anforderung:</strong> "Erstellung & Veröffentlichung von Stellenanzeigen, Active Sourcing, Bewerberauswahl"</p>
+                        <div class="solution-split">
+                            <div class="split-box problem">
+                                <h4><span class="icon"><i class="fa-solid fa-times"></i></span>Problem: Passives Anzeigen-Management</h4>
+                                <ul>
+                                    <li>Anzeigen werden "gepostet", dann wird auf Bewerbungen gewartet ("Post and Pray").</li>
+                                    <li>Active Sourcing ist ein reaktives "Abarbeiten" von Profil-Listen.</li>
+                                    <li>Die Auswahl fokussiert sich nur auf den Lebenslauf (Skillset).</li>
+                                </ul>
+                            </div>
+                            <div class="split-box solution">
+                                <h4><span class="icon"><i class="fa-solid fa-check"></i></span>Lösung: Aktive "A-Player"-Jagd</h4>
+                                <ul>
+                                    <li>Ich erstelle Performance-Anzeigen mit klaren Zielgruppen-Hypothesen (Eure "A-Player").</li>
+                                    <li>Ich steuere Active Sourcing wie eine Vertriebs-Kampagne (A/B-Testing von Botschaften, Tracking).</li>
+                                    <li>Die Auswahl (Scorecard) prüft "Drive" und "Kultur-Fit" (Mindset) genauso hart wie das Skillset.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    `
+                },
+                'demo2': {
+                    title: 'Blueprint 2: Bewerbermanagement',
+                    content: `
+                        <p><strong>Die Anforderung:</strong> "Kommunikation, Interviewkoordination & Bewertung entlang eines klaren Prozesses"</p>
+                        <div class="solution-split">
+                            <div class="split-box problem">
+                                <h4><span class="icon"><i class="fa-solid fa-times"></i></span>Problem: Das "Schwarze Loch"</h4>
+                                <ul>
+                                    <li>Bewerber hören wochenlang nichts, weil die Abstimmung (GF, Fachbereich) hakt.</li>
+                                    <li>Die Koordination läuft über unstrukturierte E-Mail-Ketten.</li>
+                                    <li>Die Bewertung ist "Bauchgefühl" ohne Daten.</li>
+                                </ul>
+                            </div>
+                            <div class="split-box solution">
+                                <h4><span class="icon"><i class="fa-solid fa-check"></i></span>Lösung: Der "Candidate-Experience-Flow"</h4>
+                                <ul>
+                                    <li>Jeder Bewerber erhält (automatisiert) eine Eingangsbestätigung und ein klares "Nächster Schritt"-Datum.</li>
+                                    <li>Ich nutze ein schlankes Tool (ATS, V1) für die zentrale Koordination (keine E-Mail-Flut).</li>
+                                    <li>Bewertung erfolgt digital über eine "Scorecard", um "Bauchgefühl" in Daten zu übersetzen.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    `
+                },
+                'demo3': {
+                    title: 'Blueprint 3: Interviewführung',
+                    content: `
+                        <p><strong>Die Anforderung:</strong> "Du führst ... nach einem klaren Leitfaden, analysierst Persönlichkeitsprofile ... entwickelst fundierte Empfehlungen"</p>
+                        <div class="solution-split">
+                            <div class="split-box problem">
+                                <h4><span class="icon"><i class="fa-solid fa-times"></i></span>Problem: Das "Abfrage-Interview"</h4>
+                                <ul>
+                                    <li>Der Interviewer "hakt den Lebenslauf ab".</li>
+                                    <li>Es wird gefragt: "Wo sehen Sie sich in 5 Jahren?"</li>
+                                    <li>Die Empfehlung ist ein vages: "Fand ich ganz gut."</li>
+                                </ul>
+                            </div>
+                            <div class="split-box solution">
+                                <h4><span class="icon"><i class="fa-solid fa-check"></i></span>Lösung: Das "Kultur-Fit-Interview"</h4>
+                                <ul>
+                                    <li>Ich nutze einen strukturierten, verhaltensbasierten Leitfaden (z.B. STAR-Methode).</li>
+                                    <li>Ich frage: "Beschreib mir ein Projekt, das Du gegen Widerstände durchgesetzt hast." (Testet "Drive" & "Gestalter").</li>
+                                    <li>Meine Empfehlung ist eine klare Analyse: "Stärken auf X, Risiko bei Y, klarer Kultur-Fit bei Z."</li>
+                                </ul>
+                            </div>
+                        </div>
+                    `
+                },
+                'demo4': {
+                    title: 'Blueprint 4: Onboarding',
+                    content: `
+                        <p><strong>Die Anforderung:</strong> "Planung & Steuerung der ersten 90 Tage für neue Mitarbeitende"</p>
+                        <div class="solution-split">
+                            <div class="split-box problem">
+                                <h4><span class="icon"><i class="fa-solid fa-times"></i></span>Problem: Der "Kalte-Wasser-Wurf"</h4>
+                                <ul>
+                                    <li>Tag 1: "Hier ist Dein Laptop, da ist das Wiki. Viel Erfolg."</li>
+                                    <li>Der neue Mitarbeiter ist die ersten 2 Wochen "unter dem Radar" und verliert "Drive".</li>
+                                    <li>Hohes Risiko für Kündigung in der Probezeit.</li>
+                                </ul>
+                            </div>
+                            <div class="split-box solution">
+                                <h4><span class="icon"><i class="fa-solid fa-check"></i></span>Lösung: Der "Tag-1-Impact-Plan"</h4>
+                                <ul>
+                                    <li>Tag 1 (Vorbereitet): Laptop ist konfiguriert, Team ist informiert, ein "Buddy" ist zugewiesen.</li>
+                                    <li>Woche 1: Ein klares "Erstes Mini-Projekt" (ein "Quick Win"), das "Impact" und "Gestaltung" ermöglicht.</li>
+                                    <li>Tag 30/60/90: Strukturierte Feedback-Check-ins (mit mir und der GF).</li>
+                                </ul>
+                            </div>
+                        </div>
+                    `
+                },
+                'demo5': {
+                    title: 'Blueprint 5: Performance-Kultur',
+                    content: `
+                        <p><strong>Die Anforderung:</strong> "Mitgestaltung von Feedbackprozessen, Zielgesprächen & Entwicklungsangeboten..."</p>
+                        <div class="solution-split">
+                            <div class="split-box problem">
+                                <h4><span class="icon"><i class="fa-solid fa-times"></i></span>Problem: Das "Jahres-Gericht"</h4>
+                                <ul>
+                                    <li>Feedback gibt es einmal im Jahr in einem 3-Stunden-Marathon.</li>
+                                    <li>"Ziele" sind administrative Pflichtübungen, die in der Schublade landen.</li>
+                                    <li>Events sind "Weihnachtsfeier und Sommerfest".</li>
+                                </ul>
+                            </div>
+                            <div class="split-box solution">
+                                <h4><span class="icon"><i class="fa-solid fa-check"></i></span>Lösung: Der "Kontinuierliche Dialog"</h4>
+                                <ul>
+                                    <li>Ich implementiere schlanke, quartalsweise "Check-ins" (statt Jahres-Monologe).</li>
+                                    <li>"Ziele" (z.B. OKRs) sind agil, transparent und werden alle 3 Monate justiert.</li>
+                                    <li>Events sind auch "Wissens-Events" (z.B. "Tech-Talks", "Sales-Bootcamps"), die Eure Kultur stärken.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    `
+                },
+                'demo6': {
+                    title: 'Blueprint 6: HR-Organisation',
+                    content: `
+                        <p><strong>Die Anforderung:</strong> "Pflege des Bewerbermanagementsystems & Optimierung interner Abläufe"</p>
+                        <div class="solution-split">
+                            <div class="split-box problem">
+                                <h4><span class="icon"><i class="fa-solid fa-times"></i></span>Problem: Die "Excel-Hölle"</h4>
+                                <ul>
+                                    <li>Bewerber werden in Excel-Listen verwaltet.</li>
+                                    <li>Vertragserstellung ist manuelles "Copy & Paste".</li>
+                                    <li>DSGVO-Löschfristen werden verpasst.</li>
+                                </ul>
+                            </div>
+                            <div class="split-box solution">
+                                <h4><span class="icon"><i class="fa-solid fa-check"></i></span>Lösung: Das "Schlanke HR-System"</h4>
+                                <ul>
+                                    <li>Ich nutze das ATS (aus V1) konsequent, um den "Single-Point-of-Truth" zu schaffen.</li>
+                                    <li>Ich identifiziere die Top 3 "Flaschenhälse" (z.B. Vertrag, Onboarding) und automatisiere sie (V1).</li>
+                                    <li>DSGVO-Prozesse sind im System hinterlegt und automatisiert.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    `
+                },
+                'demo7': {
+                    title: 'Blueprint 7: Zusammenarbeit',
+                    content: `
+                        <p><strong>Die Anforderung:</strong> "Enge Abstimmung mit Geschäftsleitung & Fachbereichen"</p>
+                        <div class="solution-split">
+                            <div class="split-box problem">
+                                <h4><span class="icon"><i class="fa-solid fa-times"></i></span>Problem: HR als "Bestell-Büro"</h4>
+                                <ul>
+                                    <li>Fachbereich: "Ich brauche 3 Leute bis gestern."</li>
+                                    <li>GF: "Wie ist der Stand bei den Bewerbern?"</li>
+                                    <li>HR ist reaktiv und "liefert" nur.</li>
+                                </ul>
+                            </div>
+                            <div class="split-box solution">
+                                <h4><span class="icon"><i class="fa-solid fa-check"></i></span>Lösung: HR als "Business Partner"</h4>
+                                <ul>
+                                    <li>Ich frage den Fachbereich: "Welches *Problem* willst Du lösen? Lass uns das *Profil* gemeinsam schärfen."</li>
+                                    <li>Ich liefere der GF ein KPI-Dashboard (V1) und sage proaktiv: "Time-to-Hire für Sales sinkt, aber Kultur-Fit-Score ist stabil."</li>
+                                    <li>Ich bin proaktiv, datenbasiert und agiere auf Augenhöhe.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    `
+                }
+            };
+
+            // 2. DOM-Elemente auswählen
+            const modalBackdrop = document.getElementById('modal-backdrop');
+            const modalContent = document.getElementById('modal-content');
+            const modalCloseBtn = document.getElementById('modal-close');
+            const modalTitle = document.getElementById('modal-title');
+            const modalBody = document.getElementById('modal-body');
+            
+            const modalTriggers = document.querySelectorAll('.modal-trigger');
+
+            // 3. Funktionen
+            function openModal(dataKey) {
+                const data = modalData[dataKey];
+                if (!data) return;
+
+                // Inhalte setzen
+                modalTitle.textContent = data.title;
+                modalBody.innerHTML = data.content;
+                
+                // Modal anzeigen
+                modalBackdrop.classList.add('visible');
+                document.body.style.overflow = 'hidden'; // Hintergrund-Scrollen verhindern
+            }
+
+            function closeModal() {
+                modalBackdrop.classList.remove('visible');
+                document.body.style.overflow = 'auto'; // Scrollen wieder erlauben
+            }
+
+            // 4. Event-Listener
+            
+            // Klick auf alle Demo-Karten
+            modalTriggers.forEach(trigger => {
+                trigger.addEventListener('click', () => {
+                    openModal(trigger.dataset.modal);
+                });
+            });
+
+            // Klick auf Schließen-Button (X)
+            modalCloseBtn.addEventListener('click', closeModal);
+
+            // Klick auf den Hintergrund (Backdrop)
+            modalBackdrop.addEventListener('click', (e) => {
+                // Nur schließen, wenn direkt auf den Hintergrund geklickt wird
+                if (e.target === modalBackdrop) {
+                    closeModal();
+                }
+            });
+
+            // Schließen mit der Escape-Taste
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modalBackkey.classList.contains('visible')) {
+                    closeModal();
+                }
+            });
+
+        });
+    </script>
+
+</body>
+</html>
