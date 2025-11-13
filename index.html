@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     
     <!-- Font Awesome CDN -->
-    <!-- KORREKTUR: 'integrity' statt 'xintegrity' -->
+    <!-- HINWEIS: 'xintegrity' wie vom User gewünscht beibehalten -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
@@ -192,10 +192,11 @@
         }
         
         .hero-header .lead-text {
-            font-size: 1.15rem;
+            font-size: 1.1rem; /* Leicht kleiner als p.lead */
             color: #eee;
             max-width: 700px;
             margin: 0 auto 1.5rem auto;
+            line-height: 1.7;
         }
 
         /* Sektion 2: Demos (Weiß) */
@@ -433,7 +434,7 @@
         .footer-disclaimer {
             margin-top: 4rem;
             text-align: center;
-            font-size: 0.85rem;
+            font-size: 0.7rem; /* KORREKTUR: Weiter verkleinert */
             color: #999;
         }
         .footer-disclaimer p {
@@ -634,6 +635,13 @@
                 <h2>...keinen Prozessverwalter.</h2>
             </div>
             
+            <!-- NEUER EINLEITUNGS-TEXT -->
+            <p class="lead-text" style="color: #eee; max-width: 700px; margin: 2.5rem auto 2.5rem auto;">
+                <b>Liebe Steffi, lieber Ruwen,</b><br>
+                mein Name ist Philipp Krohn, und diese interaktive Seite ist meine proaktive Bewerbung als Euer HR Manager / People & Culture.
+                Eure A-Player-Kultur ist Euer stärkster Hebel – sie braucht jetzt ein Betriebssystem, um zu skalieren. Dieses Canvas soll Euch zeigen, wie ich als Euer People-Builder die Systeme baue, die Euren Drive unterstützen und Eure Kultur skalierbar machen.
+            </p>
+            
             <!-- Video-Einbettung (Neuer Link) -->
             <div class="video-container">
                 <iframe src="https://www.youtube.com/embed/zuOUN-VSI40" 
@@ -643,9 +651,7 @@
                 </iframe>
             </div>
             
-            <p class="lead-text" style="color: #ccc; max-width: 600px;">
-                Lass mich Euch den Unterschied zeigen. Interaktiv.
-            </p>
+            <!-- Alter Lead-Text (ENTFERNT) -->
             
             <a href="#demos" class="btn">Meine Lösungs-Blueprints ansehen</a>
         </div>
@@ -660,7 +666,7 @@
                     <h2>Eure Herausforderungen. Meine Lösungs-Blueprints.</h2>
                     <!-- Umformulierte, selbstbewusste Einleitung -->
                     <p class="lead" style="max-width: 700px; margin: -1rem auto 0 auto;">
-                        Für jede Kernaufgabe aus Eurer Ausschreibung gibt es einen etablierten Weg – und einen, der 'Drive' und Kultur fördert. Die folgenden Blueprints zeigen, wie ich als Euer 'People-Builder' und Impulsgeber typische 'Prozess-Fallen' vermeide und stattdessen nachhaltige, mensch-zentrierte Lösungen umsetze.
+                        Für jede Kernaufgabe aus Eurer Ausschreibung gibt es einen etablierten Weg – und einen, der Drive und Kultur fördert. Die folgenden Blueprints zeigen, wie ich als Euer People-Builder und Impulsgeber typische Prozess-Fallen vermeide und stattdessen nachhaltige, mensch-zentrierte Lösungen umsetze.
                     </p>
                 </div>
 
@@ -742,14 +748,17 @@
                     <!-- KARTE 1 - INTERAKTIV -->
                     <div class="split-box modal-trigger" data-modal="paradox-falle">
                         <span class="plus-icon"><i class="fa-solid fa-plus"></i></span>
-                        <h3><i class="fa-solid fa-filter"></i>Die Selektions-Falle (Das Flaschenhals)</h3>
-                        <p>Die 'EForce'-Kultur ('ins kalte Wasser springen') ist ein exzellenter Filter, um High-Performer zu identifizieren. Bei exponentiellem Wachstum (z.B. Dubai) wird dieser Filter aber zum Flaschenhals...</p>
+                        <!-- KORREKTUR: Artikel (der) -->
+                        <h3><i class="fa-solid fa-filter"></i>Die Selektions-Falle (Der Flaschenhals)</h3>
+                        <!-- KORREKTUR: Extrapunkt entfernt -->
+                        <p>Die EForce-Kultur ('ins kalte Wasser springen') ist ein exzellenter Filter, um High-Performer zu identifizieren. Bei exponentiellem Wachstum (z.B. Dubai) wird dieser Filter aber zum Flaschenhals.</p>
                     </div>
                     <!-- KARTE 2 - INTERAKTIV -->
                     <div class="split-box modal-trigger" data-modal="paradox-architekt">
                         <span class="plus-icon"><i class="fa-solid fa-plus"></i></span>
                         <h3><i class="fa-solid fa-sitemap"></i>Der System-Architekt (Die Lösung)</h3>
-                        <p>Hier liegt meine Stärke: Ich bin nicht nur 'Macher', sondern 'System-Architekt'. Ich biete die Kompetenz, die 'EForce'-DNA in ein agiles, aber zuverlässiges System zu gießen...</p>
+                        <!-- KORREKTUR: Extrapunkt entfernt -->
+                        <p>Hier liegt meine Stärke: Ich bin nicht nur Macher, sondern System-Architekt. Ich biete die Kompetenz, die EForce-DNA in ein agiles, aber zuverlässiges System zu gießen.</p>
                     </div>
                 </div>
             </div>
@@ -827,7 +836,7 @@
                 <!-- Disclaimer & Impressum -->
                 <div class="footer-disclaimer">
                     <p>
-                        Diese Demo-Webseite wurde von Philipp Krohn proaktiv als Arbeitsprobe im Rahmen der Bewerbung auf die Stelle "HR Manager / People & Culture" bei der EF Sales GmbH erstellt. Alle Inhalte basieren auf öffentlich zugänglichen Informationen. Die Seite wird nach Beendigung des Bewerbungsverfahrens oder auf jederzeitigen Wunsch gelöscht.
+                        Diese Demo-Webseite wurde als Arbeitsprobe im Rahmen der Bewerbung auf die Stelle "HR Manager / People & Culture" bei der EF Sales GmbH erstellt. Alle Inhalte basieren auf öffentlich zugänglichen Informationen. Die Seite wird nach Beendigung des Bewerbungsverfahrens oder auf jederzeitigen Wunsch gelöscht.
                     </p>
                     <p>
                         <a href="https://personalakademie.de/impressum/" target="_blank" rel="noopener">Impressum</a> | 
@@ -875,16 +884,15 @@
                         </div>
                         <div class="modal-box solution">
                             <h4><i class="fa-solid fa-rocket"></i>Lösung: Aktive "A-Player-Jagd"</h4>
-                            <p>Als "People-Builder" starte ich mit Eurer Zielgruppe. Meine Lösung:</p>
+                            <p>Als People-Builder starte ich mit Eurer Zielgruppe. Meine Lösung:</p>
                             <ul>
-                                <li><strong>EVP-Anzeigen:</strong> Statt reiner Aufgabenlisten schreibe ich Anzeigen, die Eure 'EForce'-Kultur verkaufen.</li>
+                                <li><strong>EVP-Anzeigen:</strong> Statt reiner Aufgabenlisten schreibe ich Anzeigen, die Eure EForce-Kultur verkaufen.</li>
                                 <li><strong>Kampagnen-Fokus:</strong> Ich nutze Euer Budget gezielt auf den Kanälen (Meta, TikTok, LinkedIn), wo die Zielgruppe ist.</li>
                                 <li><strong>Sourcing-Sprints:</strong> Active Sourcing wird ein proaktiver, datenbasierter Prozess, kein Zufall.</li>
                             </ul>
                         </div>
                     `
                 },
-                // --- KORREKTUR: Wiederhergestellte Inhalte für Demos 2-7 ---
                 'demo2': {
                     title: 'Bewerbermanagement',
                     requirement: '"Kommunikation, Interviewkoordination & Bewertung entlang eines klaren Prozesses"',
@@ -895,7 +903,7 @@
                         </div>
                         <div class="modal-box solution">
                             <h4><i class="fa-solid fa-rocket"></i>Lösung: Das "ATS V1" (Minimum Viable System)</h4>
-                            <p>Ein 'People-Builder' nutzt Technologie, um Menschen zu entlasten:</p>
+                            <p>Ein People-Builder nutzt Technologie, um Menschen zu entlasten:</p>
                             <ul>
                                 <li><strong>Kein Konzern-Tool:</strong> Ich suche kein 2-Jahres-Projekt, sondern ein 'schlankes' ATS (V1), das wir in 4 Wochen live nehmen.</li>
                                 <li><strong>Transparenz:</strong> Ein Dashboard statt E-Mail-Chaos. Jeder (GF, Fachbereich, HR) sieht den Status.</li>
@@ -910,13 +918,13 @@
                     content: `
                         <div class="modal-box problem">
                             <h4><i class="fa-solid fa-box-archive"></i>Problem: Das "Bauchgefühl-Interview"</h4>
-                            <p>Interviews sind unstrukturiert und oft 'Sympathie-Checks'. Jeder im Fachbereich fragt, was er will. Die Ergebnisse sind nicht vergleichbar und der 'Cultural Fit' bleibt Zufall.</p>
+                            <p>Interviews sind unstrukturiDert und oft 'Sympathie-Checks'. Jeder im Fachbereich fragt, was er will. Die Ergebnisse sind nicht vergleichbar und der 'Cultural Fit' bleibt Zufall.</p>
                         </div>
                         <div class="modal-box solution">
                             <h4><i class="fa-solid fa-rocket"></i>Lösung: Strukturierte "Kultur-Analyse"</h4>
-                            <p>Ein 'People-Builder' verlässt sich nicht auf Bauchgefühl, sondern auf Daten:</p>
+                            <p>Ein People-Builder verlässt sich nicht auf Bauchgefühl, sondern auf Daten:</p>
                             <ul>
-                                <li><strong>Scorecard (V1):</strong> Ich entwickle einen Interview-Leitfaden, der Eure Werte ('Drive', 'Verantwortung') in messbare Fragen übersetzt.</li>
+                                <li><strong>Scorecard (V1):</strong> Ich entwickle einen Interview-Leitfaden, der Eure Werte (Drive, Verantwortung) in messbare Fragen übersetzt.</li>
                                 <li><strong>Analyse-Tools:</strong> Ich nutze (optional) simple, aber effektive Persönlichkeitsprofile (z.B. DISG) als Diskussionsgrundlage, nicht als Dogma.</li>
                                 <li><strong>Fundierte Empfehlung:</strong> Statt "Fand ich gut" liefere ich eine datenbasierte Empfehlung ("Passt zu Kulturwert Y, aber braucht Support bei Skill X").</li>
                             </ul>
@@ -933,9 +941,9 @@
                         </div>
                         <div class="modal-box solution">
                             <h4><i class="fa-solid fa-rocket"></i>Lösung: "Ins kalte Wasser" (mit System)</h4>
-                            <p>Als 'People-Builder' liebe ich die 'ins kalte Wasser'-Mentalität, aber ich baue ein System drumherum:</p>
+                            <p>Als People-Builder liebe ich die 'ins kalte Wasser'-Mentalität, aber ich baue ein System drumherum:</p>
                             <ul>
-                                <li><strong>'EForce'-Buddy-System:</strong> Systematische Zuweisung eines Mentors, der die Kultur (Drive) vermittelt.</li>
+                                <li><strong>EForce-Buddy-System:</strong> Systematische Zuweisung eines Mentors, der die Kultur (Drive) vermittelt.</li>
                                 <li><strong>90-Tage-Plan (V1):</strong> Ein klares Dokument mit Zielen für Tag 1, Woche 1, Monat 1, Monat 3.</li>
                                 <li><strong>'Impact'-Fokus:</strong> Der Plan stellt sicher, dass der Neue in Woche 1 einen ersten, echten "Impact" hat, statt nur PDFs zu lesen.</li>
                             </ul>
@@ -952,10 +960,11 @@
                         </div>
                         <div class="modal-box solution">
                             <h4><i class="fa-solid fa-rocket"></i>Lösung: Kontinuierliches "High-Performer"-Feedback</h4>
-                            <p>Ein 'People-Builder' weiß: A-Player *wollen* Feedback. Sofort.</p>
+                            <p>Ein People-Builder weiß: A-Player *wollen* Feedback. Sofort.</p>
                             <ul>
                                 <li><strong>Feedback-Kultur (V1):</strong> Ich implementiere 'schlanke' Formate (z.B. monatliche 1-on-1s, Quartals-Reviews) statt nur Jahresgespräche.</li>
-                                <li><strong>Events mit 'Drive':</strong> Ich organisiere Events, die Eure Kultur stärken (z.B. 'Tech-Talks', 'Fuck-Up-Nights'), statt nur die Weihnachtsfeier.</li>
+                                <!-- KORREKTUR: 'Tech-Talks' ersetzt durch 'Vertriebs-Talks' -->
+                                <li><strong>Events mit 'Drive':</strong> Ich organisiere Events, die Eure Kultur stärken (z.B. 'Vertriebs-Talks', 'Erfolgs-Reviews'), statt nur die Weihnachtsfeier.</li>
                                 <li><strong>Entwicklungs-Fokus:</strong> Ich verbinde Feedback direkt mit Entwicklungsangeboten ('Fordern & Fördern').</li>
                             </ul>
                         </div>
@@ -968,10 +977,11 @@
                         <div class="modal-box problem">
                             <h4><i class="fa-solid fa-box-archive"></i>Problem: Administrativer Ballast</h4>
                             <p>HR-Prozesse (Urlaub, Verträge, Stammdaten) sind manuell, langsam und binden Eure Zeit (Steffi). Das System (ATS) ist nur eine "Datenablage" und wird nicht genutzt.</p>
+
                         </div>
                         <div class="modal-box solution">
                             <h4><i class="fa-solid fa-rocket"></i>Lösung: Das "HR OS V1" (Self-Service)</h4>
-                            <p>Als 'System-Architekt' ist mein Ziel, dass HR-Prozesse 'unsichtbar' und effizient sind:</p>
+                            <p>Als System-Architekt ist mein Ziel, dass HR-Prozesse 'unsichtbar' und effizient sind:</p>
                             <ul>
                                 <li><strong>Prozess-Audit:</strong> Ich identifiziere die Top 3 Zeitfresser (z.B. Vertragserstellung) und digitalisiere sie 'schlank'.</li>
                                 <li><strong>ATS-Optimierung:</strong> Ich mache das ATS zum zentralen Tool, das den Fachbereichen Arbeit *abnimmt* (z.B. automatisierte Terminfindung).</li>
@@ -990,7 +1000,7 @@
                         </div>
                         <div class="modal-box solution">
                             <h4><i class="fa-solid fa-rocket"></i>Lösung: People & Culture als Business Partner</h4>
-                            <p>Als Euer 'People-Builder' bin ich strategischer Partner, kein Verwalter:</p>
+                            <p>Als Euer People-Builder bin ich strategischer Partner, kein Verwalter:</p>
                             <ul>
                                 <li><strong>KPI-Dashboard (V1):</strong> Ich liefere Euch (der GL) die Daten (Time-to-Hire, Fluktuation, Performance-Verteilung), die Ihr für 'schnelle Entscheidungen' (Ruwen) braucht.</li>
                                 <li><strong>Sparringspartner:</strong> Ich bin Euer (Steffi) Sparringspartner für Kulturentwicklung und Organisationsdesign.</li>
@@ -999,7 +1009,6 @@
                         </div>
                     `
                 },
-                // --- Ende der wiederhergestellten Inhalte ---
                 'paradox-falle': {
                     title: 'Meta-Analyse: Die Selektions-Falle',
                     requirement: '"Das A-Player-Paradoxon (Teil 1)"',
@@ -1022,12 +1031,12 @@
                     content: `
                         <div class="modal-box solution">
                             <h4><i class="fa-solid fa-sitemap"></i>Die Lösung: Die DNA kodifizieren</h4>
-                            <p>'System-Architekt' zu sein bedeutet nicht, Bürokratie zu schaffen. Es bedeutet, die 'EForce-DNA' (Drive, Verantwortung, Fordern & Fördern) zu verstehen und zu <strong>kodifizieren</strong> – sie in 'schlanke', aber 'bewusste' Prozesse zu gießen.</p>
+                            <p>System-Architekt zu sein bedeutet nicht, Bürokratie zu schaffen. Es bedeutet, die EForce-DNA (Drive, Verantwortung, Fordern & Fördern) zu verstehen und zu <strong>kodifizieren</strong> – sie in 'schlanke', aber 'bewusste' Prozesse zu gießen.</p>
                             <p>Mein Ziel ist es, die Kultur von "implizit" (man muss da sein, um sie zu verstehen) zu "explizit" (sie ist in den Systemen abgebildet) zu wandeln.</p>
                         </div>
                         <div class="modal-box solution">
                             <h4><i class="fa-solid fa-rocket"></i>Die Lösung: A-Player "produzieren"</h4>
-                            <p>Das ist der Kern meiner 'People-Builder'-Philosophie:</p>
+                            <p>Das ist der Kern meiner People-Builder-Philosophie:</p>
                             <ul>
                                 <li>Mein <strong>'Onboarding-Blueprint V1' (Demo 4)</strong> ist das System, das die 'False-Negative'-Rate senkt. Es gibt High-Potentials die nötige Struktur (den 90-Tage-Plan), damit das 'kalte Wasser' eine 'Herausforderung' (Challenge) und kein 'Rätselraten' (Guessing) ist.</li>
                                 <li>Mein <strong>'Performance-Framework V1' (Demo 5)</strong> ist das System, das Feedback ('Fordern') und Entwicklung ('Fördern') proaktiv steuert.</li>
@@ -1087,6 +1096,7 @@
 
             // Schließen mit der Escape-Taste
             document.addEventListener('keydown', (e) => {
+                // KORREKTUR: 'modalBackDTop' zu 'modalBackdrop'
                 if (e.key === 'Escape' && modalBackdrop.classList.contains('visible')) {
                     closeModal();
                 }
